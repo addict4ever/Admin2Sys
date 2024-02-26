@@ -72,18 +72,22 @@ string GetProcessUserName(DWORD pid) {
 }
 
 
-int main(){
+int main(int argc, char* argv[]) {
+    if (argc != 2) {
+        cout << "Usage: " << argv[0] << " <path_to_application>" << endl;
+        return 1;
+    }
+
     string username;
     HANDLE hProcSnap;
     PROCESSENTRY32 pe32;
-    string app;
+    string app = argv[1]; // Récupérer le chemin de l'application à partir des arguments de la ligne de commande
     string userProcess;
     int pid = 0;
                 
     hProcSnap = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
     pe32.dwSize = sizeof(PROCESSENTRY32); 
-    cout << "Enter the path of the application you want to run as SYSTEM: ";
-    cin >> app;
+    
     wstring wapp = wstring(app.begin(), app.end());
     LPCWSTR LPCapp = wapp.c_str();    
                 
